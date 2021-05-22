@@ -10,15 +10,15 @@ text를 받아 트리플을 추출하고 추출한 트리플을 바탕으로 rdf
     인텔리J를 쓸경우 Project structure 에서 라이브러리에 lib, lib-src, stanford, json-simple, jsoup를 하나씩 모두 추가해야함
 
 # Method
-- text2triple
-    description : stanford coref를 통해 전처리과정을 거치고 openie로 트리플을 추출합니다.
-    input : text(String)
-    output : tripleList(List<String[]>)
+## text2triple
+- **description** : stanford coref를 통해 전처리과정을 거치고 openie로 트리플을 추출합니다.
+- **input** : text(String)
+- **output** : tripleList(List<String[]>)
 
-- triple2rdf
-    description : Jena로 트리플의 subject, predicate, object를 모델에 매핑시켜 rdf를 추출합니다. (url은 prefix로 들어감)
-    input : tripleList(List<String[]>), url(String)
-    output : rdf(string)
+## triple2rdf
+- **description** : Jena로 트리플의 subject, predicate, object를 모델에 매핑시켜 rdf를 추출합니다. (url은 prefix로 들어감)
+- **input** : tripleList(List<String[]>), url(String)
+- **output** : rdf(string)
     
 # Server
 파이썬 서버와 API를 주고 받습니다.
