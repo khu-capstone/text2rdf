@@ -12,6 +12,9 @@ import edu.stanford.nlp.util.PropertiesUtils;
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -24,10 +27,10 @@ public class Text2rdf {
     public static void main(String[] args) throws IOException {
 
         //Jsoup 파싱
-//        Document doc = Jsoup.connect("https://en.wikipedia.org/wiki/Korea").get();
-//        Elements pTags = doc.getElementsByTag("p");
-//        String bodyText = Jsoup.parse(pTags.toString()).text();
-        String text = "Korea (officially the \"Korean Peninsula\") is a region in East Asia. Since 1945 it has been divided into the two parts which soon became the two sovereign states: North Korea (officially the \"Democratic People's Republic of Korea\") and South Korea (officially the \"Republic of Korea\"). Korea consists of the Korean Peninsula, Jeju Island, and several minor islands near the peninsula. It is bordered by China to the northwest and Russia to the northeast. It is separated from Japan to the east by the Korea Strait and the Sea of Japan (East Sea). During the first half of the 1st millennium, Korea was divided between the three competing states of Goguryeo, Baekje, and Silla, together known as the Three Kingdoms of Korea.";
+        Document doc = Jsoup.connect("https://en.wikipedia.org/wiki/Korea").get();
+        Elements pTags = doc.getElementsByTag("p");
+        String bodyText = Jsoup.parse(pTags.toString()).text();
+        String text = "Korea (officially the \"Korean Peninsula\") is a region in East Asia. Since 1945 it has been divided into the two parts which soon became the two sovereign states: North Korea's father (officially the \"Democratic People's Republic of Korea\") and South Korea (officially the \"Republic of Korea\"). Korea consists of the Korean Peninsula, Jeju Island, and several minor islands near the peninsula. It is bordered by China to the northwest and Russia to the northeast. It is separated from Japan to the east by the Korea Strait and the Sea of Japan (East Sea). During the first half of the 1st millennium, Korea was divided between the three competing states of Goguryeo, Baekje, and Silla, together known as the Three Kingdoms of Korea.";
         String url = "https://en.wikipedia.org/wiki/";
 
         List<String[]> triples = text2triple(text);
@@ -123,6 +126,9 @@ public class Text2rdf {
             System.out.println("\n");
 
         }
+        for (String[] t : tripleList){
+            System.out.println("[\""+t[0]+"\",\""+t[1]+"\",\""+t[2]+"\"],");
+        }
         return tripleList;
     }
 
@@ -138,9 +144,9 @@ public class Text2rdf {
         Model model = ModelFactory.createDefaultModel();
 
         for (String[] statement : tripleList) {
-            Resource s = model.createResource(url + statement[0]);
+            Resource s = model.createResource(url + ":" + statement[0]);
             Property p = model.createProperty("predicate:" + statement[1]);
-            RDFNode o = model.createLiteral(url + statement[2]);
+            RDFNode o = model.createLiteral(url + ":" + statement[2]);
             model.add(s,p,o);
         }
 
@@ -162,12 +168,5 @@ public class Text2rdf {
         return result;
     }
 
-    /**
-     * input : rdf(string)
-     * output : 미정
-     */
-    public static void rdf2kg(String rdf) {
-
-    }
 
 }
