@@ -21,7 +21,7 @@ jsoup-1.13.1.jar도 같이 다운 받아서 추가
 
 프로젝트 폴더에 taggers라는 폴더 만들고 붙여넣기함
 ```java
-package test_package;
+package text2rdf;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
