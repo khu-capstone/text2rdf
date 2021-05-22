@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.util.*;
 
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
@@ -50,10 +51,7 @@ public class Main {
                         tripleJson.add(triple[2]);
                         jsonArray.add(tripleJson);
                     }
-                    t.sendResponseHeaders(200, jsonArray.toJSONString().length());
-                    OutputStream os = t.getResponseBody();
-                    os.write(jsonArray.toJSONString().getBytes());
-                    os.close();
+                    sendResponse(t, jsonArray.toString(), 200);
                     return;
                 } else if (path.equalsIgnoreCase("/api/triple2rdf")) {
                     JSONParser jsonParser = new JSONParser();
@@ -77,10 +75,7 @@ public class Main {
 
                     String rdf = text2rdfObj.triple2rdf(triples, url);
 
-                    t.sendResponseHeaders(200, rdf.length());
-                    OutputStream os = t.getResponseBody();
-                    os.write(rdf.getBytes());
-                    os.close();
+                    sendResponse(t, rdf, 200);
                     return;
                 } else if (path.equalsIgnoreCase("/api/rdf2kg")) {
                     JSONObject json = new JSONObject();
@@ -89,18 +84,12 @@ public class Main {
                         Object value = entry.getValue();
                         json.put(key, value);
                     }
-                    t.sendResponseHeaders(200, json.toString().length());
-                    OutputStream os = t.getResponseBody();
-                    os.write(json.toString().getBytes());
-                    os.close();
+                    sendResponse(t, json.toString(), 200);
                     return;
                 }
             }
-            String response = "Not found";
-            t.sendResponseHeaders(404, response.length());
-            OutputStream os = t.getResponseBody();
-            os.write(response.getBytes());
-            os.close();
+            sendResponse(t, "Not found", 404);
+            return;
         }
 
         private Map<String, String> getFormdata(HttpExchange t) {
@@ -130,6 +119,15 @@ public class Main {
             } catch (IOException e) {
                 throw new Error(e);
             }
+        }
+
+        private void sendResponse(HttpExchange t, String response, int code) throws IOException {
+            t.sendResponseHeaders(code, response.getBytes().length);
+
+            OutputStream os = t.getResponseBody();
+            os.flush();
+            os.write(response.getBytes());
+            os.close();
         }
     }
 }
