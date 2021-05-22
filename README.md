@@ -4,7 +4,7 @@ text를 받아 트리플을 추출하고 추출한 트리플을 바탕으로 rdf
 # Getting Start
 1. Download libraries
     https://drive.google.com/drive/folders/1B0uucnh5J87ayFbKrvWCJ0240ehV9AiP?usp=sharing    
-    위 구글 드라이브 링크에서 t2rLib를 다운로드합니다.
+    위 구글 드라이브 링크에서 t2rLib안에 있는 모든 라이브러리를 다운로드합니다.
 
 2. 라이브러리를 프로젝트에 추가
     인텔리J를 쓸경우 Project structure 에서 라이브러리에 lib, lib-src, stanford, json-simple, jsoup를 하나씩 모두 추가해야함
