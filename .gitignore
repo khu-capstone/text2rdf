@@ -2,3 +2,5 @@ lib/**
 out/**
 .idea/**
 web2rdf.iml
+src/META-INF/**
+
